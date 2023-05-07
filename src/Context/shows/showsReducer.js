@@ -7,22 +7,15 @@ import {
 
 const showsReducer = (state, action) => {
   switch (action.type) {
-    case SET_LOADING:
-      return {
-        ...state,
-        loading: true,
-      };
     case ALL_SHOWS:
       return {
         ...state,
         shows: action.payload,
-        loading: false,
       };
     case SET_SINGLE_SHOW:
       return {
         ...state,
         singleShow: action.payload,
-        loading: false,
       };
     case CLEAR_SINGLE_SHOW:
       return {
