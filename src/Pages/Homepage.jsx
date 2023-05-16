@@ -7,18 +7,10 @@ const Homepage = () => {
   const showsContext = useContext(ShowsContext);
   const { shows, allShows } = showsContext;
 
-  const onSearchHandler = (e) => {
-    e.preventDefault();
-
-    allShows();
-  };
+  allShows();
 
   return (
     <div className="homepage">
-      <button className="btn btn-block" onClick={onSearchHandler}>
-        Click to See All Shows
-      </button>
-
       <div className="homepage__list">
         {shows.map((item) => (
           <ListItem
