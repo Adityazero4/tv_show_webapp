@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -29,7 +29,22 @@ const showTimings = [
 ];
 
 export default function Formpage({ name }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [showTime, setShowTime] = useState("Morning Show");
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const userdata = { username, email, number, showTime };
+
+  useEffect(() => {
+    if (localStorage.getItem("userdata")) {
+      const data = JSON.parse(localStorage.getItem("userdata"));
+      setUserName(data.username);
+      setEmail(data.email);
+      setNumber(data.number);
+      setShowTime(data.showTime);
+    }
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,6 +52,10 @@ export default function Formpage({ name }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleContinue = () => {
+    localStorage.setItem("userdata", JSON.stringify(userdata));
+    handleClose();
   };
 
   return (
@@ -63,29 +82,41 @@ export default function Formpage({ name }) {
                 label="Show Name"
                 defaultValue={name}
               />
-              <TextField required id="outlined-disabled" label="Name" />
+              <TextField
+                required
+                id="outlined-disabled"
+                label="Name"
+                type="name"
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
+              />
               <TextField
                 required
                 id="outlined-email-input"
                 label="Email"
                 type="email"
+                value={email}
                 autoComplete="current-email"
+                onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
                 required
                 id="outlined-number"
-                label="Number"
-                type="number"
+                label="Contact Number"
+                type="contact"
+                value={number}
                 InputLabelProps={{
                   shrink: true,
                 }}
+                onChange={(e) => setNumber(e.target.value)}
               />
               <TextField
                 id="outlined-select-currency"
                 select
-                label="Select"
-                defaultValue="EUR"
+                label="Show Time"
+                defaultValue={showTime}
                 helperText="Please select your show time"
+                onChange={(e) => setShowTime(e.target.value)}
               >
                 {showTimings.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -98,7 +129,7 @@ export default function Formpage({ name }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Continue</Button>
+          <Button onClick={handleContinue}>Continue</Button>
         </DialogActions>
       </Dialog>
     </div>

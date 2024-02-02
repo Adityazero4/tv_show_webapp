@@ -12,9 +12,7 @@ const Summary = () => {
 
   useEffect(() => {
     getSingleShow(id);
-
-    // eslint-disable-next-line
-  }, []);
+  }, [id]);
 
   const removeTags = (text) => {
     if (text === null || text === "") {
@@ -46,7 +44,7 @@ const Summary = () => {
             ))}
 
           <p>{singleShow.summary && removeTags(singleShow.summary)}</p>
-          <Formpage name={singleShow.name}></Formpage>
+          <Formpage name={singleShow.name} />
         </div>
       </div>
     </>

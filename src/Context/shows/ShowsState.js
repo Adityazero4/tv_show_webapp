@@ -2,12 +2,7 @@ import { useReducer } from "react";
 import axios from "axios";
 import ShowsContext from "./showsContext";
 import ShowsReducer from "./showsReducer";
-import {
-  ALL_SHOWS,
-  SET_LOADING,
-  SET_SINGLE_SHOW,
-  CLEAR_SINGLE_SHOW,
-} from "../types";
+import { ALL_SHOWS, SET_SINGLE_SHOW, CLEAR_SINGLE_SHOW } from "../types";
 
 const ShowsState = (props) => {
   const initialState = {
@@ -19,13 +14,9 @@ const ShowsState = (props) => {
   const [state, dispatch] = useReducer(ShowsReducer, initialState);
 
   const allShows = async () => {
-    dispatch({ type: SET_LOADING });
-
     const { data } = await axios.get(
       `https://api.tvmaze.com/search/shows?q=all`
     );
-
-    console.log(data);
 
     dispatch({
       type: ALL_SHOWS,
@@ -34,10 +25,6 @@ const ShowsState = (props) => {
   };
 
   const getSingleShow = async (id) => {
-    dispatch({
-      type: SET_LOADING,
-    });
-
     const { data } = await axios.get(`https://api.tvmaze.com/shows/${id}`);
 
     console.log(data);
